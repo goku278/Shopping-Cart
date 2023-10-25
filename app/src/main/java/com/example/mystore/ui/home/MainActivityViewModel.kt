@@ -10,6 +10,9 @@ import javax.inject.Inject
 
 open class MainActivityViewModel @Inject constructor(application: Application) :
     AndroidViewModel(application) {
+
+    private val database = (application as ShoppingCartApplication).database
+
     private var listener: ShoppingCart.Listener? = null
 
     init {
@@ -25,43 +28,43 @@ open class MainActivityViewModel @Inject constructor(application: Application) :
 
     suspend fun insertData() {
         coroutineScope {
-            AppUtils.insertData(getApplication())
+            AppUtils.insertData(getApplication(), database)
         }
     }
 
     suspend fun checkIfTableRecordExists() {
         coroutineScope {
-            AppUtils.checkIfTableRecordExists(getApplication(),listener)
+            AppUtils.checkIfTableRecordExists(getApplication(),listener, database)
         }
     }
 
     suspend fun insertFavouriteItem(data: DataModel) {
         coroutineScope {
-            AppUtils.insertFavouriteItem(getApplication(), data)
+            AppUtils.insertFavouriteItem(getApplication(), data, database)
         }
     }
 
     suspend fun deleteFavouriteItem(data: DataModel) {
         coroutineScope {
-            AppUtils.deleteFavouriteItem(getApplication(), data)
+            AppUtils.deleteFavouriteItem(getApplication(), data, database)
         }
     }
 
     suspend fun addToCart(data: DataModel) {
         coroutineScope {
-            AppUtils.addToCart(getApplication(), data, listener)
+            AppUtils.addToCart(getApplication(), data, listener, database)
         }
     }
 
     suspend fun getFavourites() {
-        AppUtils.getFavourites(getApplication(), listener)
+        AppUtils.getFavourites(getApplication(), listener, database)
     }
 
     suspend fun getData() {
-        AppUtils.getData(getApplication(),listener)
+        AppUtils.getData(getApplication(),listener, database)
     }
 
     suspend fun getCart(isOnStart: Boolean) {
-        AppUtils.getCart(getApplication(),isOnStart,listener)
+        AppUtils.getCart(getApplication(),isOnStart,listener, database)
     }
 }
